@@ -34,9 +34,10 @@ def mc_control(env, num_episodes, alpha, gamma=1.0):
     # initialize empty dictionary of arrays
     Q = defaultdict(lambda: np.zeros(nA))
     # loop over episodes
-    epsilon = 1.0
+    epsilon_init = 1.0
     for i_episode in range(1, num_episodes + 1):
         # monitor progress
+        epsilon = epsilon_init / i_episode
         if i_episode % 1000 == 0:
             print("\rEpisode {}/{}.".format(i_episode, num_episodes), end="")
             sys.stdout.flush()
@@ -51,7 +52,6 @@ def mc_control(env, num_episodes, alpha, gamma=1.0):
                 for j in range(len(episode) - i):
                     episode_reward = episode_reward + (gamma ** j) * episode[i + j][2]
                 Q[state][action] = Q[state][action] + alpha * (episode_reward - Q[state][action])
-        epsilon = epsilon / i_episode
         policy = defaultdict(lambda: 0)
         for k, v in Q.items():
             policy[k] = np.argmax(v)
