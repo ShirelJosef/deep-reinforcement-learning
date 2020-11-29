@@ -29,7 +29,7 @@ def q_learning(env, num_episodes, alpha, gamma=1.0):
     epsilon_init = 1.0
     for i_episode in range(1, num_episodes + 1):
         # monitor progress
-        epsilon = epsilon_init = 1.0 / i_episode
+        epsilon = epsilon_init / i_episode
         if i_episode % 100 == 0:
             print("\rEpisode {}/{}".format(i_episode, num_episodes), end="")
             sys.stdout.flush()
