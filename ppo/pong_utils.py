@@ -128,7 +128,7 @@ def collect_trajectories(envs, policy, tmax=200, nrand=5):
         # prepare the input
         # preprocess_batch properly converts two frames into 
         # shape (n, 2, 80, 80), the proper input for the policy
-        # this is required when building CNN with pytorch
+        # this is \d when building CNN with pytorch
         batch_input = preprocess_batch([fr1,fr2])
         
         # probs will only be used as the pi_old
@@ -195,7 +195,6 @@ def surrogate(policy, old_probs, states, actions, rewards,
     new_probs = torch.where(actions == RIGHT, new_probs, 1.0-new_probs)
 
     ratio = new_probs/old_probs
-
     # include a regularization term
     # this steers new_policy towards 0.5
     # add in 1.e-10 to avoid log(0) which gives nan
